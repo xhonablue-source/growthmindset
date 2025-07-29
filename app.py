@@ -40,11 +40,11 @@ A **growth mindset** means believing that abilities improve with effort and the 
 # --- Enrichment and Mindset Resource Links ---
 st.markdown("""
 ### 🔗 Enrichment: Mindset & Real Math Resources
-- [Youcubed – Growth Mindset](https://www.youcubed.org/resource/what-is-a-math-mindset/)
+- [Mindset Works Official Site](https://sites.google.com/mindsetworks.com/mindsetworks/home)
+- [YouCubed: Growth Mindset Resources](https://www.youcubed.org/resource/growth-mindset/)
 - [Khan Academy: Growth Mindset](https://www.khanacademy.org/youcanlearnanything)
 - [Mindset Works Posters](https://www.mindsetworks.com/free-resources)
 - [Angela Duckworth: Grit (TED Talk)](https://www.ted.com/talks/angela_lee_duckworth_grit_the_power_of_passion_and_perseverance)
-- [Which One Doesn’t Belong?](https://wodb.ca/)
 - [Equitable Math](https://equitablemath.org/)
 - [Desmos Graphing Tool](https://www.desmos.com/calculator)
 """)
