@@ -1,9 +1,12 @@
 import streamlit as st
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
-# Page config
-st.set_page_config(page_title="MathCraft: Growth Mindset in Math", layout="wide")
+# --- Page Config ---
+st.set_page_config(page_title="MathCraft: Growth Mindset Math", page_icon="🌱", layout="wide")
 
-# --- MATHCRAFT HEADER ---
+# --- HEADER: MathCraft Branding ---
 st.markdown("""
 <div style='text-align: center; padding: 1rem 0;'>
     <img src='https://raw.githubusercontent.com/xhonablue/mathcraft-assets/main/logo.png' width='150'>
@@ -14,7 +17,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- SECTION: Introduction to Growth Mindset ---
+# --- INTRO SECTION: Growth Mindset ---
 st.header("🌱 Growth Mindset in Mathematics")
 st.markdown("""
 A **growth mindset** is the belief that abilities and intelligence can be developed through dedication and hard work.
@@ -22,46 +25,53 @@ In math, this means believing that everyone can improve their mathematical think
 
 > "I’m not good at math… YET." 
 
-Use that word — **YET** — to remind yourself that math is a journey.
-"""
-)
+Use that word — **YET** — to remind yourself that math is a journey, not a competition.
+""")
 
-# --- SECTION: Productive Disposition ---
+# --- Productive Disposition ---
 st.subheader("💡 What is Productive Disposition?")
 st.markdown("""
-According to the National Research Council's *Adding It Up*, productive disposition means:
+From *Adding It Up* by the National Research Council:
+
 > "The habitual inclination to see mathematics as sensible, useful, and worthwhile, coupled with a belief in diligence and one’s own efficacy."
 
-In this app, you’ll explore ways to connect math to the real world, boost your confidence, and understand why math matters.
+In this app, you’ll explore how real math connects to real life and why your effort is the key to success.
 """)
 
-# --- SECTION: Real-World Application Activity ---
+# --- Real-World Reflection Activity ---
 st.subheader("🌍 Connect Math to the Real World")
 st.markdown("""
-Pick one of these real-world math challenges to try:
-- Plan a budget for a music event
-- Calculate how many gallons of paint to cover your dream bedroom
-- Use ratios to design your own smoothie recipe
-
-These activities help you **see value in math**, which strengthens your **productive disposition**.
+Pick a challenge below to see math's usefulness:
+- 🧮 Plan a party budget with inequalities
+- 🎨 Calculate paint needed for your dream room (volume + surface area)
+- 🍓 Create your own smoothie recipe using ratios
 """)
+st.text_input("🔄 What's one real situation where math helped you?")
+st.text_input("🧠 What’s a tough math topic you eventually learned? What helped?")
 
-# --- SECTION: Reflect and Share ---
-st.subheader("🧠 Reflect: How Do You Think About Math?")
-st.text_input("What’s something hard in math you pushed through before? What helped you?")
-st.text_input("Why do you think math is important in the world?")
-
-# --- SECTION: Enrichment Links ---
-st.subheader("🔗 Want to Learn More?")
+# --- LIVE RESOURCE LINKS ---
+st.subheader("🔗 Learn More, Grow More")
 st.markdown("""
-Here are some awesome resources that help build a math growth mindset:
-- [Youcubed – Growth Mindset in Math](https://www.youcubed.org/resource/what-is-a-math-mindset/)
-- [Khan Academy – Growth Mindset Videos](https://www.khanacademy.org/resources/parents-mentors-1/helping-your-child/a/what-is-a-growth-mindset)
-- [Classroom Posters & Tools from Mindset Works](https://www.mindsetworks.com/free-resources)
-- [Big Ideas from Jo Boaler](https://www.youcubed.org/resource_category/teaching-ideas/)
+- 🧠 [**Khan Academy: Growth Mindset**](https://www.khanacademy.org/youcanlearnanything)
+- 📘 [**YouCubed: What is a Math Mindset?**](https://www.youcubed.org/resource/what-is-a-math-mindset/)
+- 🧩 [**Which One Doesn’t Belong**](https://wodb.ca/)
+- 🔥 [**Angela Duckworth: Grit (TED)**](https://www.ted.com/talks/angela_lee_duckworth_grit_the_power_of_passion_and_perseverance)
+- 🧮 [**Desmos Graphing Calculator**](https://www.desmos.com/calculator)
+- ⚖️ [**Equitable Math Tools**](https://equitablemath.org/)
+- 🧪 [**Mindset Works Posters & Tools**](https://www.mindsetworks.com/free-resources)
 """)
 
-# --- FOOTER ---
+# --- CALL TO ADVENTURE ---
+st.markdown("""---""")
+st.title("📅 Start Your 4-Week Positive Math Mindset Journey")
+
+# Include your full weekly curriculum here
+# Copy the 4-week `week_tabs` block from your original Positive Mindset Math program here.
+# It's over 400 lines — but nothing needs to change except possibly adding:
+# - The enrichment links above at the top
+# - Optionally: `st.selectbox()` to toggle between Growth Intro and Weekly Curriculum (if modular UI desired)
+
+# --- Footer ---
 st.markdown("""
 <hr style='border-top: 1px solid #ccc;'>
 <p style='font-size: 0.8rem; text-align: center;'>Built with ❤️ by Xavier Honablue, M.Ed | MathCraft Initiative | All rights reserved.</p>
