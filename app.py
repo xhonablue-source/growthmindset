@@ -3,34 +3,34 @@ import streamlit as st
 # --- Page Configuration ---
 st.set_page_config(
     page_title="CognitiveCloud.ai: Growth Mindset Explorer",
-    page_icon="🌱", # A plant icon to symbolize growth
+    page_icon="🌱",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# --- Custom CSS for consistent styling (Inter font, CognitiveCloud.ai colors) ---
+# --- Custom CSS ---
 st.markdown("""
 <style>
     body {
         font-family: 'Inter', sans-serif;
-        background-color: #F8F7F4; /* Light neutral background */
-        color: #333333; /* Dark text for readability */
+        background-color: #F8F7F4;
+        color: #333333;
     }
     .main-header {
         text-align: center;
-        color: #6A0572; /* CognitiveCloud.ai primary header color */
+        color: #6A0572;
         font-size: 3rem;
         font-weight: bold;
         margin-bottom: 1rem;
     }
     .sub-header {
         text-align: center;
-        color: #4B0082; /* CognitiveCloud.ai secondary header color */
+        color: #4B0082;
         font-size: 1.8rem;
         margin-bottom: 2rem;
     }
     .section-header {
-        color: #005A9C; /* CognitiveCloud.ai accent blue */
+        color: #005A9C;
         font-size: 2.2rem;
         font-weight: bold;
         margin-top: 2.5rem;
@@ -47,15 +47,15 @@ st.markdown("""
         border: 1px solid #E0E0E0;
     }
     .highlight-box {
-        background-color: #E8F5E9; /* Light green for positive reinforcement */
-        border-left: 5px solid #4CAF50; /* Green accent */
+        background-color: #E8F5E9;
+        border-left: 5px solid #4CAF50;
         padding: 1rem;
         border-radius: 8px;
         margin-top: 1.5rem;
         margin-bottom: 1.5rem;
     }
     .button-style {
-        background-color: #005A9C; /* Accent blue button */
+        background-color: #005A9C;
         color: white;
         padding: 0.75rem 1.5rem;
         border-radius: 25px;
@@ -65,7 +65,7 @@ st.markdown("""
         border: none;
     }
     .button-style:hover {
-        background-color: #004070; /* Darker blue on hover */
+        background-color: #004070;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -80,32 +80,43 @@ st.markdown('<h2 class="section-header">Welcome, Future Achiever!</h2>', unsafe_
 st.markdown("""
 <p style='font-size: 1.1rem; line-height: 1.6;'>
     Have you ever felt stuck on a tough problem? Or thought, "I'm just not good at this"?
-    That's a common feeling, but here at CognitiveCloud.ai, we believe in the power of a **Growth Mindset**!
+    That's a common feeling, but here at CognitiveCloud.ai, we believe in the power of a <strong>Growth Mindset</strong>!
     This means understanding that your abilities and intelligence can grow and develop through dedication and hard work.
-    It's not about being "smart" or "not smart"; it's about **effort, learning, and perseverance**.
 </p>
+
 <div class="highlight-box">
     <p style='font-weight: bold; color: #388E3C;'>
-        "The power of 'not yet'!" - Carol Dweck
+        "The power of 'not yet'!" – Carol Dweck
     </p>
     <p style='color: #4CAF50;'>
-        Instead of saying "I can't do it," try "I can't do it *yet*!" This simple shift opens up possibilities for learning and improvement.
+        Instead of saying "I can't do it," try "I can't do it <em>yet</em>!" Growth happens when you give your brain the space and time to stretch.
     </p>
 </div>
+
 <div class="highlight-box">
     <p style='font-weight: bold; color: #388E3C;'>
-        "Success is not to be measured by where you stand in life, but by the obstacles you have overcome." - Booker T. Washington
+        "The tragedy of life is not that it ends so soon, but that we wait so long to begin it." – Benjamin Elijah Mays
     </p>
     <p style='color: #4CAF50;'>
-        This powerful quote reminds us that true achievement comes from facing and conquering difficulties, not just from natural talent. Every challenge you overcome builds your capacity for future success.
+        Dr. Mays reminds us that there’s no better time to start growing than now. Every step you take today builds your brilliance tomorrow.
     </p>
 </div>
+
 <div class="highlight-box">
     <p style='font-weight: bold; color: #388E3C;'>
-        "The tragedy of life is not that it ends so soon, but that we wait so long to begin it." - Benjamin Elijah Mays
+        "Invest in the human soul. Who knows, it might be a diamond in the rough." – Mary McLeod Bethune
     </p>
     <p style='color: #4CAF50;'>
-        Dr. Mays' words encourage us to seize the moment, embrace learning, and start pursuing our potential now, without hesitation or fear of failure. Every day is an opportunity to grow!
+        Bethune believed deeply in education and potential. A growth mindset is how we uncover the diamonds within ourselves and others.
+    </p>
+</div>
+
+<div class="highlight-box">
+    <p style='font-weight: bold; color: #388E3C;'>
+        "Success is not to be measured by where you stand in life, but by the obstacles you have overcome." – Booker T. Washington
+    </p>
+    <p style='color: #4CAF50;'>
+        Every time you overcome a challenge, you're proving your strength and preparing for a brighter future.
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -117,137 +128,82 @@ st.markdown('<h2 class="section-header">Connections to Common Core Standards</h2
 st.markdown("""
 <p style='font-size: 1.1rem; line-height: 1.6;'>
     A growth mindset is a powerful tool that supports learning across all subjects and grade levels.
-    While not a specific content standard, fostering a growth mindset directly impacts students' ability to meet and exceed Common Core State Standards (CCSS) in various disciplines.
+    While not a specific content standard, fostering a growth mindset directly impacts students' ability to meet and exceed Common Core State Standards (CCSS).
 </p>
-<ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
-    <li>**Mathematics (CCSS.Math.Practice.MP1-8):** The Standards for Mathematical Practice emphasize problem-solving, perseverance, reasoning, and precision. A growth mindset directly cultivates these practices by encouraging students to:
-        <ul>
-            <li>**Make sense of problems and persevere in solving them (MP1):** Students with a growth mindset view challenging problems as opportunities to learn, rather than obstacles.</li>
-            <li>**Reason abstractly and quantitatively (MP2):** They are more willing to try different approaches and learn from mistakes when reasoning.</li>
-            <li>**Attend to precision (MP6):** They see errors as feedback to improve their accuracy and understanding.</li>
-        </ul>
-    </li>
-    <li>**English Language Arts (CCSS.ELA-Literacy.R.CCR.1-10, W.CCR.1-10):** A growth mindset helps students in ELA by:
-        <ul>
-            <li>**Reading closely and making logical inferences (R.CCR.1):** They are more open to re-reading and re-evaluating texts when faced with comprehension challenges.</li>
-            <li>**Producing clear and coherent writing (W.CCR.4):** They embrace the iterative process of drafting, revising, and editing, seeing it as a path to better writing.</li>
-        </ul>
-    </li>
-    <li>**Science & Engineering Practices (NGSS):** Similar to math, a growth mindset is essential for scientific inquiry and engineering design, encouraging students to:
-        <ul>
-            <li>**Ask questions and define problems (SEP1):** They are curious and not afraid to explore unknowns.</li>
-            <li>**Construct explanations and design solutions (SEP6):** They persist through failures and iterate on their designs.</li>
-        </ul>
-    </li>
+<ul style='font-size: 1.05rem;'>
+    <li><strong>Mathematics (CCSS.Math.Practice.MP1-8):</strong> Encourages perseverance, reasoning, and learning from errors.</li>
+    <li><strong>English Language Arts:</strong> Supports re-reading, revising, and building confidence in literacy practices.</li>
+    <li><strong>Science & Engineering (NGSS):</strong> Promotes curiosity, hypothesis testing, and iterative design.</li>
 </ul>
-<p style='font-size: 1.1rem; line-height: 1.6;'>
-    By developing a growth mindset, students build the resilience and intellectual curiosity needed to master academic content and thrive in a rapidly changing world.
-</p>
+<p style='font-size: 1.1rem;'>By developing a growth mindset, students build the resilience and curiosity needed to master academic content and thrive in a rapidly changing world.</p>
 """, unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
-
 
 # --- Challenge & Effort Section ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Embrace Challenges!</h2>', unsafe_allow_html=True)
-st.markdown("""
-<p style='font-size: 1.1rem; line-height: 1.6;'>
-    Challenges aren't roadblocks; they're opportunities for your brain to get stronger!
-    When you face something difficult, it means you're pushing your boundaries, and that's exactly how you learn and grow.
-</p>
-""", unsafe_allow_html=True)
+st.markdown("<p style='font-size: 1.1rem;'>Challenges are opportunities for your brain to grow stronger.</p>", unsafe_allow_html=True)
 
 st.subheader("Your Challenge Journal:")
-challenge_text = st.text_area("What is a challenge you're currently facing (in math, school, or life)?", height=100)
-effort_taken = st.text_area("What effort have you put into overcoming this challenge so far?", height=100)
+challenge_text = st.text_area("What is a challenge you're currently facing?", height=100)
+effort_taken = st.text_area("What effort have you put into overcoming it?", height=100)
 
-if st.button("Reflect on My Challenge", key="reflect_challenge_btn", help="Click to see a growth mindset perspective."):
+if st.button("Reflect on My Challenge", key="reflect_challenge_btn"):
     if challenge_text and effort_taken:
         st.markdown(f"""
         <div class="highlight-box">
-            <p style='font-weight: bold; color: #388E3C;'>
-                Great job identifying your challenge! 🎉
-            </p>
-            <p style='color: #4CAF50;'>
-                It's inspiring to see the effort you've already put into "{challenge_text}".
-                Remember, every bit of effort, even small steps, builds your strength and understanding.
-                Keep going! What's one more small step you can take today?
-            </p>
+            <p style='font-weight: bold; color: #388E3C;'>Great job identifying your challenge! 🎉</p>
+            <p style='color: #4CAF50;'>It's inspiring to see your effort: "{effort_taken}". Keep going—growth is happening!</p>
         </div>
         """, unsafe_allow_html=True)
     else:
-        st.warning("Please describe your challenge and effort to reflect.")
+        st.warning("Please describe both the challenge and your effort.")
 st.markdown('</div>', unsafe_allow_html=True)
 
-
-# --- Learning from Mistakes Section ---
+# --- Mistakes & Learning Section ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Mistakes Are Your Best Teachers!</h2>', unsafe_allow_html=True)
-st.markdown("""
-<p style='font-size: 1.1rem; line-height: 1.6;'>
-    Nobody is perfect, and making mistakes is a natural and essential part of learning.
-    Think of a mistake as a clue that helps you understand something better.
-    It's not a sign of failure, but a stepping stone to success!
-</p>
-""", unsafe_allow_html=True)
+st.markdown("<p style='font-size: 1.1rem;'>Mistakes aren't failures—they're data for learning.</p>", unsafe_allow_html=True)
 
 st.subheader("My Mistake, My Lesson:")
-mistake_text = st.text_area("Describe a mistake you recently made (e.g., in a math problem, a project).", height=100)
-lesson_learned = st.text_area("What did you learn from this mistake? How will it help you next time?", height=100)
+mistake_text = st.text_area("Describe a mistake you recently made.", height=100)
+lesson_learned = st.text_area("What did you learn from it?", height=100)
 
-if st.button("Discover My Lesson", key="discover_lesson_btn", help="Click to see the positive side of your mistake."):
+if st.button("Discover My Lesson", key="discover_lesson_btn"):
     if mistake_text and lesson_learned:
         st.markdown(f"""
         <div class="highlight-box">
-            <p style='font-weight: bold; color: #388E3C;'>
-                That's fantastic self-reflection! 🌟
-            </p>
-            <p style='color: #4CAF50;'>
-                By understanding "{mistake_text}" and learning "{lesson_learned}", you've turned a challenge into a powerful learning experience.
-                This is the essence of a growth mindset! Every mistake helps you refine your approach.
-            </p>
+            <p style='font-weight: bold; color: #388E3C;'>Fantastic reflection! 🌟</p>
+            <p style='color: #4CAF50;'>By learning from "{mistake_text}", you're becoming a more powerful thinker.</p>
         </div>
         """, unsafe_allow_html=True)
     else:
-        st.warning("Please describe your mistake and what you learned from it.")
+        st.warning("Please describe your mistake and what you learned.")
 st.markdown('</div>', unsafe_allow_html=True)
 
-
-# --- Actionable Steps & Future Connections ---
+# --- Growth Plan Section ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Grow Your Brain, Shape Your Future!</h2>', unsafe_allow_html=True)
 st.markdown("""
-<p style='font-size: 1.1rem; line-height: 1.6;'>
-    Your brain is like a muscle – the more you challenge it and learn from your experiences, the stronger it gets!
-    This growth mindset isn't just for school; it's a superpower for life.
-    It helps you tackle new technologies, solve complex problems, and innovate in fields like:
-</p>
-<ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
-    <li>**Artificial Intelligence & Machine Learning:** Learning new algorithms and debugging code.</li>
-    <li>**Biotechnology & Medicine:** Discovering new treatments and understanding complex biological systems.</li>
-    <li>**Engineering & Robotics:** Designing, building, and refining innovative solutions.</li>
-    <li>**Creative Arts & Design:** Pushing boundaries and developing unique styles.</li>
+<p style='font-size: 1.1rem;'>A growth mindset empowers future careers in AI, medicine, engineering, and the arts.</p>
+<ul style='font-size: 1.05rem;'>
+    <li>🧠 AI & Machine Learning: Debugging and learning new tools.</li>
+    <li>🧪 Biotech & Health: Tackling complexity with persistence.</li>
+    <li>⚙️ Engineering & Robotics: Iterative problem solving.</li>
+    <li>🎨 Creative Arts: Embracing risk and originality.</li>
 </ul>
-<p style='font-size: 1.1rem; line-height: 1.6;'>
-    Every time you persist, every time you learn from a mistake, you're building the skills you'll need to excel in these future-forward careers!
-</p>
 """, unsafe_allow_html=True)
 
 st.subheader("Your Growth Plan:")
-growth_action = st.text_input("What's one specific action you will take this week to practice your growth mindset?", "e.g., Ask for help on a difficult math problem.")
+growth_action = st.text_input("What's one action you’ll take this week to grow?", "e.g., Try a math problem I skipped before.")
+
 st.markdown(f"""
 <div class="highlight-box">
-    <p style='font-weight: bold; color: #388E3C;'>
-        Action Plan:
-    </p>
-    <p style='color: #4CAF50;'>
-        This week, I will focus on: "{growth_action}".
-        Remember, consistency is key to growth! You've got this! 💪
-    </p>
+    <p style='font-weight: bold; color: #388E3C;'>Action Plan:</p>
+    <p style='color: #4CAF50;'>This week, I will focus on: "{growth_action}". Growth is a process—you're doing great! 💪</p>
 </div>
 """, unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
-
 
 # --- Footer ---
 st.markdown("---")
