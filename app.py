@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
 import random
 import time # For potential future animations/pauses
@@ -174,13 +175,13 @@ COMMON_CORE_STANDARD = "CCSS.Math.Content.4.NBT.B.5: Multiply a whole number of 
 POSITIVE_MESSAGES = [
     "You've got this! Every try is a step forward. ✨",
     "Great effort! Learning is a journey, not a race. Keep going! 💪",
-    "Mistakes are just opportunities to learn and grow. What can you learn from this? 🤔",
+    "Mistakes are just opportunities to learn and grow. What can you learn from this? �",
     "Your brain is getting stronger with every challenge you face! 🧠",
     "Don't give up! Persistence is the key to mastering anything. 🚀",
     "Awesome thinking! You're building powerful math skills. 🌟",
     "Celebrate your progress, no matter how small! You're doing great. 🎉",
     "Every problem you solve makes you smarter! Keep shining! 💡",
-    "You're amazing! Believe in your ability to learn and grow. �",
+    "You're amazing! Believe in your ability to learn and grow. 🌱",
     "Challenges help us grow. You're doing great just by trying! 🌈",
     "It's okay to not know everything yet. That's why we're here to learn! 📚"
 ]
