@@ -7,7 +7,7 @@ import time # For potential future animations/pauses
 st.set_page_config(
     page_title="Positive Mindset Math: 4th Grade Multiplication",
     page_icon="🌟",
-    layout="wide", # Changed to wide for more space
+    layout="wide", # Changed to wide for more space for 
     initial_sidebar_state="expanded" # Changed to expanded for navigation
 )
 
