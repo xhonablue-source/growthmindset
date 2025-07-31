@@ -175,7 +175,7 @@ COMMON_CORE_STANDARD = "CCSS.Math.Content.4.NBT.B.5: Multiply a whole number of 
 POSITIVE_MESSAGES = [
     "You've got this! Every try is a step forward. ✨",
     "Great effort! Learning is a journey, not a race. Keep going! 💪",
-    "Mistakes are just opportunities to learn and grow. What can you learn from this? 🤔",
+    "Mistakes are just opportunities to learn and grow. What can you learn from this? �",
     "Your brain is getting stronger with every challenge you face! 🧠",
     "Don't give up! Persistence is the key to mastering anything. 🚀",
     "Awesome thinking! You're building powerful math skills. 🌟",
@@ -373,6 +373,22 @@ with st.sidebar:
 if st.session_state.page == "welcome":
     st.markdown('<h1 class="main-header">👋 Welcome to CognitiveCloud.ai Math!</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Let\'s embark on a fun math adventure together!</p>', unsafe_allow_html=True)
+
+    # New opening encouragement message
+    st.markdown("""
+    <div style="background-color: #E8F5E9; padding: 20px; border-radius: 15px; margin-bottom: 30px; text-align: center; border: 2px solid #A5D6A7;">
+        <p style="font-size: 1.2rem; color: #388E3C; font-weight: bold;">
+            Hey there, future math whiz! 👋
+        </p>
+        <p style="font-size: 1.1rem; color: #4CAF50;">
+            It's totally okay if math sometimes feels tricky or a little scary.
+            Everyone learns at their own pace, and every single try helps your brain grow stronger!
+            Here, we celebrate effort, curiosity, and learning from mistakes.
+            You're about to discover how amazing and fun math can be! Let's do this! ✨
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
     st.write("Before we start, what's your name?")
     name_input = st.text_input("My name is:", key="name_input")
 
@@ -551,6 +567,7 @@ st.markdown("---")
 st.markdown("""
 <div style="text-align: center; margin-top: 2rem; color: #666;">
     <p>💡 <strong>Empowering Young Minds in STEAM</strong></p>
-    <p>Powered by CognitiveCloud.ai Education</p>
+    <p>Developed by Xavier Honablue M.Ed for CognitiveCloud.ai Education</p>
 </div>
 """, unsafe_allow_html=True)
+�
