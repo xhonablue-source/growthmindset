@@ -69,19 +69,15 @@ st.markdown("""
 <p style='font-size: 1.1rem;'>Your abilities grow with effort, mistakes, and perseverance. Let these voices guide your journey:</p>
 <div class="highlight-box">
     <strong>"The power of 'not yet'!"</strong> – Carol Dweck
-    <br><audio controls src="https://cognitivecloud-public.s3.amazonaws.com/audio/carol_dweck_not_yet.mp3"></audio>
 </div>
 <div class="highlight-box">
     <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
-    <br><audio controls src="https://cognitivecloud-public.s3.amazonaws.com/audio/benjamin_mays_tragedy.mp3"></audio>
 </div>
 <div class="highlight-box">
     <strong>"Invest in the human soul. Who knows, it might be a diamond in the rough."</strong> – Mary McLeod Bethune
-    <br><audio controls src="https://cognitivecloud-public.s3.amazonaws.com/audio/mary_bethune_diamond.mp3"></audio>
 </div>
 <div class="highlight-box">
     <strong>"Success is not to be measured by where you stand in life, but by the obstacles you have overcome."</strong> – Booker T. Washington
-    <br><audio controls src="https://cognitivecloud-public.s3.amazonaws.com/audio/booker_success.mp3"></audio>
 </div>
 """, unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
