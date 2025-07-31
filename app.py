@@ -175,7 +175,7 @@ COMMON_CORE_STANDARD = "CCSS.Math.Content.4.NBT.B.5: Multiply a whole number of 
 POSITIVE_MESSAGES = [
     "You've got this! Every try is a step forward. ✨",
     "Great effort! Learning is a journey, not a race. Keep going! 💪",
-    "Mistakes are just opportunities to learn and grow. What can you learn from this? �",
+    "Mistakes are just opportunities to learn and grow. What can you learn from this? 🤔",
     "Your brain is getting stronger with every challenge you face! 🧠",
     "Don't give up! Persistence is the key to mastering anything. 🚀",
     "Awesome thinking! You're building powerful math skills. 🌟",
@@ -554,4 +554,3 @@ st.markdown("""
     <p>Powered by CognitiveCloud.ai Education</p>
 </div>
 """, unsafe_allow_html=True)
-�
