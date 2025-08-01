@@ -1,6 +1,7 @@
 import streamlit as st
 import io
 import openai
+import os
 
 # --- Page Configuration ---
 st.set_page_config(
@@ -9,6 +10,9 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
+
+# --- OpenAI API Key Configuration ---
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # --- Custom CSS ---
 st.markdown("""
@@ -86,46 +90,56 @@ st.markdown('</div>', unsafe_allow_html=True)
 # --- Journaling Section ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Your Growth Journal</h2>', unsafe_allow_html=True)
-challenge_text = st.text_area("Describe a challenge you're facing:", height=100)
-effort_taken = st.text_area("What effort have you made so far?", height=100)
-mistake_text = st.text_area("Describe a mistake you’ve made:", height=100)
-lesson_learned = st.text_area("What did you learn from that mistake?", height=100)
-growth_action = st.text_input("One action you’ll take to grow this week:", "e.g., Ask for help on a tough math problem")
 
-# --- LLM Feedback ---
-if any([challenge_text, effort_taken, mistake_text, lesson_learned, growth_action]):
-    journal_input = f"""
-    Challenge: {challenge_text}
-    Effort: {effort_taken}
-    Mistake: {mistake_text}
-    Lesson Learned: {lesson_learned}
-    Growth Action: {growth_action}
-    """
-    if st.button("🤖 Get Feedback from Dr. X"):
-        with st.spinner("Dr. X is thinking..."):
-            try:
-                response = openai.ChatCompletion.create(
-                    model="gpt-4",
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": (
-                                "You are Dr. X, a friendly growth mindset coach for middle and high school students. "
-                                "Offer supportive, encouraging, and constructive feedback based on the user's journal. "
-                                "Always end with a relevant, current, and appropriate resource link to support growth mindset "
-                                "(e.g., https://www.youcubed.org/resource/growth-mindset/ or https://biglifejournal.com/blogs/blog/growth-mindset-activities-children)."
-                            )
-                        },
-                        {"role": "user", "content": journal_input}
-                    ]
-                )
-                st.success("Here's what Dr. X has to say:")
-                st.markdown(response["choices"][0]["message"]["content"])
-            except Exception as e:
-                st.error("Oops! There was an error with the AI feedback. Please check your API setup or try again later.")
+def get_feedback(text, context):
+    if not text:
+        return ""
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        f"You are Dr. X, a friendly growth mindset coach for middle and high school students.\n"
+                        f"Provide supportive, encouraging, and constructive feedback for the following journal entry focused on {context}.\n"
+                        "Always include one relevant, current growth mindset resource link for further learning."
+                    )
+                },
+                {"role": "user", "content": text}
+            ]
+        )
+        return response["choices"][0]["message"]["content"]
+    except Exception as e:
+        return "⚠️ Feedback unavailable. Please check your connection or OpenAI credentials."
+
+challenge_text = st.text_area("Describe a challenge you're facing:", key="challenge", height=100)
+if challenge_text:
+    st.markdown("#### Dr. X's Feedback:")
+    st.info(get_feedback(challenge_text, "a challenge"))
+
+effort_taken = st.text_area("What effort have you made so far?", key="effort", height=100)
+if effort_taken:
+    st.markdown("#### Dr. X's Feedback:")
+    st.info(get_feedback(effort_taken, "effort made"))
+
+mistake_text = st.text_area("Describe a mistake you’ve made:", key="mistake", height=100)
+if mistake_text:
+    st.markdown("#### Dr. X's Feedback:")
+    st.info(get_feedback(mistake_text, "a mistake"))
+
+lesson_learned = st.text_area("What did you learn from that mistake?", key="lesson", height=100)
+if lesson_learned:
+    st.markdown("#### Dr. X's Feedback:")
+    st.info(get_feedback(lesson_learned, "a lesson learned"))
+
+growth_action = st.text_input("One action you’ll take to grow this week:", "e.g., Ask for help on a tough math problem", key="action")
+if growth_action:
+    st.markdown("#### Dr. X's Feedback:")
+    st.info(get_feedback(growth_action, "an action step"))
 
 # --- Export Button ---
-if st.button("🗕️ Download My Journal as Text File"):
+if st.button("📅 Download My Journal as Text File"):
     buffer = io.StringIO()
     buffer.write("Growth Mindset Reflection Journal\n\n")
     buffer.write(f"Challenge: {challenge_text}\n")
