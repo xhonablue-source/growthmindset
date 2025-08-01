@@ -1,6 +1,35 @@
+Okay, I understand\! You want the LLM feedback to be more granular, providing specific resource feedback for *each individual journal question* (challenge, effort, mistake, lesson learned, growth action) rather than a single combined response.
+
+This makes perfect sense for a growth mindset journal, allowing students to get targeted insights on each aspect of their reflection.
+
+I've updated the `app.py` code to include a separate "Get Feedback" button for each journal entry. When a button is clicked, it will send *only that entry's content* to the LLM for feedback, and the response will appear directly below that specific entry.
+
+**Key Changes:**
+
+1.  **Individual Feedback Buttons:** Each `st.text_area` and `st.text_input` in the "Your Growth Journal" section now has its own "Get Feedback from Dr. X" button.
+2.  **Targeted LLM Calls:** When a specific feedback button is pressed, only the content of that particular journal entry is sent to the LLM.
+3.  **Session State for Persistence:** I'm using `st.session_state` to store the LLM's feedback for each entry. This ensures that the feedback remains visible even when other parts of the app are interacted with, as Streamlit reruns the script on every interaction.
+4.  **Adjusted LLM Prompt:** The system prompt for Dr. X has been slightly refined to indicate that the feedback is for a "provided entry" rather than the entire journal.
+5.  **Error Handling for API Key:** The `openai.api_key` retrieval from `st.secrets` is now within a `try-except` block for robustness.
+
+**Important Reminders:**
+
+  * **`requirements.txt`:** Ensure your `requirements.txt` file contains:
+    ```
+    streamlit
+    openai
+    requests
+    ```
+  * **OpenAI API Key:** You **must** have your OpenAI API key configured as a secret named `OPENAI_API_KEY` in your Streamlit Cloud app settings for the LLM feedback to function.
+
+Here's the updated `app.py` code:
+
+```python
 import streamlit as st
 import io
-import openai # Added: Import the openai library
+import openai
+import requests
+from PIL import Image # Keep this for robustness, though direct bytes might suffice
 
 # --- Page Configuration ---
 st.set_page_config(
@@ -56,6 +85,15 @@ st.markdown("""
         margin-top: 1.5rem;
         margin-bottom: 1.5rem;
     }
+    .feedback-box {
+        background-color: #e0f7fa; /* Light blue for feedback */
+        border-left: 5px solid #00BCD4; /* Cyan accent */
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        font-style: italic;
+        color: #006064;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -95,71 +133,151 @@ leader_images = {
     "Mary McLeod Bethune": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Mary_McLeod_Bethune_with_notebook.jpg/330px-Mary_McLeod_Bethune_with_notebook.jpg",
     "Booker T. Washington": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Booker_T_Washington_retouched.jpg/330px-Booker_T_Washington_retouched.jpg"
 }
+
 cols = st.columns(len(leader_images))
 for col, (name, url) in zip(cols, leader_images.items()):
     with col:
-        st.image(url, use_column_width=True)
-        st.markdown(f"<p style='text-align:center;font-weight:bold'>{name}</p>", unsafe_allow_html=True)
+        try:
+            response = requests.get(url, stream=True)
+            response.raise_for_status()
+            image_bytes = io.BytesIO(response.content)
+
+            if 'png' in url.lower():
+                output_format = "PNG"
+            elif 'jpg' in url.lower() or 'jpeg' in url.lower():
+                output_format = "JPEG"
+            else:
+                output_format = "auto"
+
+            st.image(image_bytes, use_column_width=True, output_format=output_format)
+            st.markdown(f"<p style='text-align:center;font-weight:bold'>{name}</p>", unsafe_allow_html=True)
+        except requests.exceptions.RequestException as e:
+            st.warning(f"Could not load image for {name}. Error: {e}")
+            st.image("https://placehold.co/150x150/cccccc/000000?text=Image+Error", use_column_width=True)
+            st.markdown(f"<p style='text-align:center;font-weight:bold'>{name}</p>", unsafe_allow_html=True)
+        except Exception as e:
+            st.warning(f"An unexpected error occurred while loading image for {name}: {e}")
+            st.image("https://placehold.co/150x150/cccccc/000000?text=Image+Error", use_column_width=True)
+            st.markdown(f"<p style='text-align:center;font-weight:bold'>{name}</p>", unsafe_allow_html=True)
+
 
 # --- Journaling Section ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Your Growth Journal</h2>', unsafe_allow_html=True)
-challenge_text = st.text_area("Describe a challenge you're facing:", height=100)
-effort_taken = st.text_area("What effort have you made so far?", height=100)
-mistake_text = st.text_area("Describe a mistake you’ve made:", height=100)
-lesson_learned = st.text_area("What did you learn from that mistake?", height=100)
-growth_action = st.text_input("One action you’ll take to grow this week:", "e.g., Ask for help on a tough math problem")
+
+# Initialize session state for feedback if not already present
+if 'challenge_feedback' not in st.session_state:
+    st.session_state.challenge_feedback = ""
+if 'effort_feedback' not in st.session_state:
+    st.session_state.effort_feedback = ""
+if 'mistake_feedback' not in st.session_state:
+    st.session_state.mistake_feedback = ""
+if 'lesson_feedback' not in st.session_state:
+    st.session_state.lesson_feedback = ""
+if 'action_feedback' not in st.session_state:
+    st.session_state.action_feedback = ""
+
+# Function to get LLM feedback for a specific entry
+def get_llm_feedback(entry_content, entry_type):
+    try:
+        openai.api_key = st.secrets["OPENAI_API_KEY"]
+    except KeyError:
+        st.error("OpenAI API key not found in Streamlit secrets. Please configure it.")
+        return "Error: API key not configured."
+
+    system_prompt = (
+        "You are Dr. X, a friendly growth mindset coach for middle and high school students. "
+        "Offer supportive, encouraging, and constructive feedback based on the provided entry. "
+        "Always end with a recommended resource link that is appropriate, current, and helpful for further growth mindset learning "
+        "(e.g., https://www.youcubed.org/resource/growth-mindset/ or https://biglifejournal.com/blogs/blog/growth-mindset-activities-children)."
+    )
+    user_prompt = f"Here is my journal entry for '{entry_type}':\n\n{entry_content}"
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ]
+        )
+        return response["choices"][0]["message"]["content"]
+    except Exception as e:
+        return f"Error getting feedback: {e}"
+
+
+# Challenge
+challenge_text = st.text_area("Describe a challenge you're facing:", height=100, key="challenge_input")
+if st.button("🤖 Get Feedback for Challenge", key="feedback_challenge_btn"):
+    if challenge_text.strip():
+        with st.spinner("Dr. X is thinking about your challenge..."):
+            st.session_state.challenge_feedback = get_llm_feedback(challenge_text, "Challenge")
+    else:
+        st.session_state.challenge_feedback = "Please describe your challenge before getting feedback."
+if st.session_state.challenge_feedback:
+    st.markdown(f'<div class="feedback-box">{st.session_state.challenge_feedback}</div>', unsafe_allow_html=True)
+
+# Effort
+effort_taken = st.text_area("What effort have you made so far?", height=100, key="effort_input")
+if st.button("🤖 Get Feedback for Effort", key="feedback_effort_btn"):
+    if effort_taken.strip():
+        with st.spinner("Dr. X is thinking about your effort..."):
+            st.session_state.effort_feedback = get_llm_feedback(effort_taken, "Effort")
+    else:
+        st.session_state.effort_feedback = "Please describe your effort before getting feedback."
+if st.session_state.effort_feedback:
+    st.markdown(f'<div class="feedback-box">{st.session_state.effort_feedback}</div>', unsafe_allow_html=True)
+
+# Mistake
+mistake_text = st.text_area("Describe a mistake you’ve made:", height=100, key="mistake_input")
+if st.button("🤖 Get Feedback for Mistake", key="feedback_mistake_btn"):
+    if mistake_text.strip():
+        with st.spinner("Dr. X is thinking about your mistake..."):
+            st.session_state.mistake_feedback = get_llm_feedback(mistake_text, "Mistake")
+    else:
+        st.session_state.mistake_feedback = "Please describe your mistake before getting feedback."
+if st.session_state.mistake_feedback:
+    st.markdown(f'<div class="feedback-box">{st.session_state.mistake_feedback}</div>', unsafe_allow_html=True)
+
+# Lesson Learned
+lesson_learned = st.text_area("What did you learn from that mistake?", height=100, key="lesson_input")
+if st.button("🤖 Get Feedback for Lesson Learned", key="feedback_lesson_btn"):
+    if lesson_learned.strip():
+        with st.spinner("Dr. X is thinking about your lesson learned..."):
+            st.session_state.lesson_feedback = get_llm_feedback(lesson_learned, "Lesson Learned")
+    else:
+        st.session_state.lesson_feedback = "Please describe your lesson learned before getting feedback."
+if st.session_state.lesson_feedback:
+    st.markdown(f'<div class="feedback-box">{st.session_state.lesson_feedback}</div>', unsafe_allow_html=True)
+
+# Growth Action
+growth_action = st.text_input("One action you’ll take to grow this week:", "e.g., Ask for help on a tough math problem", key="action_input")
+if st.button("🤖 Get Feedback for Growth Action", key="feedback_action_btn"):
+    if growth_action.strip():
+        with st.spinner("Dr. X is thinking about your growth action..."):
+            st.session_state.action_feedback = get_llm_feedback(growth_action, "Growth Action")
+    else:
+        st.session_state.action_feedback = "Please describe your growth action before getting feedback."
+if st.session_state.action_feedback:
+    st.markdown(f'<div class="feedback-box">{st.session_state.action_feedback}</div>', unsafe_allow_html=True)
 
 # --- Export Button ---
+st.markdown("---") # Separator before download button for clarity
 if st.button("📅 Download My Journal as Text File"):
     buffer = io.StringIO()
     buffer.write("Growth Mindset Reflection Journal\n\n")
-    buffer.write(f"Challenge: {challenge_text}\n")
-    buffer.write(f"Effort: {effort_taken}\n\n")
-    buffer.write(f"Mistake: {mistake_text}\n")
-    buffer.write(f"Lesson Learned: {lesson_learned}\n\n")
-    buffer.write(f"Growth Action: {growth_action}\n")
+    buffer.write(f"Challenge: {challenge_text}\nFeedback: {st.session_state.challenge_feedback}\n\n")
+    buffer.write(f"Effort: {effort_taken}\nFeedback: {st.session_state.effort_feedback}\n\n")
+    buffer.write(f"Mistake: {mistake_text}\nFeedback: {st.session_state.mistake_feedback}\n\n")
+    buffer.write(f"Lesson Learned: {lesson_learned}\nFeedback: {st.session_state.lesson_feedback}\n\n")
+    buffer.write(f"Growth Action: {growth_action}\nFeedback: {st.session_state.action_feedback}\n")
     st.download_button(
         label="Click to download",
         data=buffer.getvalue(),
         file_name="growth_journal.txt",
         mime="text/plain"
     )
-
-# --- LLM Feedback ---
-# Ensure you have OPENAI_API_KEY set as a secret in your Streamlit app settings
-# and 'openai' in your requirements.txt
-if any([challenge_text, effort_taken, mistake_text, lesson_learned, growth_action]):
-    journal_input = f"""
-    Challenge: {challenge_text}
-    Effort: {effort_taken}
-    Mistake: {mistake_text}
-    Lesson Learned: {lesson_learned}
-    Growth Action: {growth_action}
-    """
-    if st.button("🤖 Get Feedback from Dr. X"):
-        with st.spinner("Dr. X is thinking..."):
-            # Set OpenAI API key from Streamlit secrets
-            openai.api_key = st.secrets["OPENAI_API_KEY"]
-
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": (
-                            "You are Dr. X, a friendly growth mindset coach for middle and high school students. "
-                            "Offer supportive, encouraging, and constructive feedback based on the user's journal. "
-                            "Always end with a recommended resource link that is appropriate, current, and helpful for further growth mindset learning "
-                            "(e.g., https://www.youcubed.org/resource/growth-mindset/ or https://biglifejournal.com/blogs/blog/growth-mindset-activities-children)."
-                        )
-                    },
-                    {"role": "user", "content": journal_input}
-                ]
-            )
-            st.success("Here's what Dr. X has to say:")
-            st.markdown(response["choices"][0]["message"]["content"])
-st.markdown('</div>', unsafe_allow_html=True) # Closing tag for the card
+st.markdown('</div>', unsafe_allow_html=True) # Closing tag for the main card
 
 # --- Footer ---
 st.markdown("---")
@@ -169,3 +287,4 @@ st.markdown("""
     <p>Developed by Xavier Honablue M.Ed for CognitiveCloud.ai Education</p>
 </div>
 """, unsafe_allow_html=True)
+```
