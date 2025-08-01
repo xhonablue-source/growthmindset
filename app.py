@@ -1,13 +1,8 @@
-st.markdown('<div class="card">', unsafe_allow_html=True)
-st.markdown('<h2 class="section-header">Welcome, Future Achiever!</h2>', unsafe_allow_html=True)
-<div class="highlight-box">  <-- THIS IS THE PROBLEM LINE (or the block it's part of)
-    <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
-</div>
-```
+My apologies for the back-and-forth\! The image clearly indicates a new error location. It seems that the previous fix might have been applied to the correct block, but perhaps a copy-paste or accidental placement of that same HTML block occurred at the very top of your file.
 
-The lines starting with `<div class="highlight-box">` and the `<strong>` tag are **not wrapped in a Python string literal passed to `st.markdown()`**. Python is trying to execute them as Python code, which is why you're getting a `SyntaxError`. The `U+2013` error specifically points to the en dash within that HTML string that Python is attempting to parse as code.
+The error "SyntaxError: unterminated string literal (detected at line 3)" on `<div class="highlight-box">` means that Python encountered this HTML tag and treated it as the start of a string (because of the `<` character in some contexts, or perhaps a missing quote somewhere), but then it didn't find the closing quote, leading to the "unterminated string" error. This strongly implies that this HTML snippet is now at the very beginning of your file, outside of any Python context.
 
-**Here's the corrected and updated code:**
+**Please replace the *entire content* of your `app.py` file with the following complete and corrected code.** This version ensures all HTML is properly enclosed within `st.markdown()` calls.
 
 ```python
 import streamlit as st
@@ -78,12 +73,13 @@ st.markdown('<p class="sub-header">Unlock Your Potential: Embrace Challenges, Le
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Welcome, Future Achiever!</h2>', unsafe_allow_html=True)
 
-# CORRECTED BLOCK: This entire HTML block was outside of st.markdown()
+# This is the block that was previously problematic and seems to have moved to line 3.
+# It MUST be inside st.markdown() like this.
 st.markdown("""
 <div class="highlight-box">
     <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
 </div>
-""", unsafe_allow_html=True) # Ensure unsafe_allow_html is True
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <p style='font-size: 1.1rem;'>Your abilities grow with effort, mistakes, and perseverance. Let these voices guide your journey:</p>
@@ -91,7 +87,7 @@ st.markdown("""
     <strong>"The power of 'not yet'!"</strong> – Carol Dweck
 </div>
 <div class="highlight-box">
-    <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
+    <strong>"The tragedy of life is not that it ends so soon, but but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
 </div>
 <div class="highlight-box">
     <strong>"Invest in the human soul. Who knows, it might be a diamond in the rough."</strong> – Mary McLeod Bethune
@@ -150,3 +146,4 @@ st.markdown("""
     <p>Developed by Xavier Honablue M.Ed for CognitiveCloud.ai Education</p>
 </div>
 """, unsafe_allow_html=True)
+```
