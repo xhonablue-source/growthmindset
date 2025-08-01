@@ -65,12 +65,9 @@ st.markdown('<p class="sub-header">Unlock Your Potential: Embrace Challenges, Le
 # --- Welcome Card with Quotes ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Welcome, Future Achiever!</h2>', unsafe_allow_html=True)
-
-st.markdown("""
 <div class="highlight-box">
     <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
 </div>
-""", unsafe_allow_html=True)
 
 st.markdown("""
 <p style='font-size: 1.1rem;'>Your abilities grow with effort, mistakes, and perseverance. Let these voices guide your journey:</p>
@@ -78,7 +75,7 @@ st.markdown("""
     <strong>"The power of 'not yet'!"</strong> – Carol Dweck
 </div>
 <div class="highlight-box">
-    <strong>"The tragedy of life is not that it ends so soon, but but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
+    <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
 </div>
 <div class="highlight-box">
     <strong>"Invest in the human soul. Who knows, it might be a diamond in the rough."</strong> – Mary McLeod Bethune
