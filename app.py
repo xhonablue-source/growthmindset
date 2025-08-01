@@ -1,30 +1,3 @@
-Okay, I understand\! You want the LLM feedback to be more granular, providing specific resource feedback for *each individual journal question* (challenge, effort, mistake, lesson learned, growth action) rather than a single combined response.
-
-This makes perfect sense for a growth mindset journal, allowing students to get targeted insights on each aspect of their reflection.
-
-I've updated the `app.py` code to include a separate "Get Feedback" button for each journal entry. When a button is clicked, it will send *only that entry's content* to the LLM for feedback, and the response will appear directly below that specific entry.
-
-**Key Changes:**
-
-1.  **Individual Feedback Buttons:** Each `st.text_area` and `st.text_input` in the "Your Growth Journal" section now has its own "Get Feedback from Dr. X" button.
-2.  **Targeted LLM Calls:** When a specific feedback button is pressed, only the content of that particular journal entry is sent to the LLM.
-3.  **Session State for Persistence:** I'm using `st.session_state` to store the LLM's feedback for each entry. This ensures that the feedback remains visible even when other parts of the app are interacted with, as Streamlit reruns the script on every interaction.
-4.  **Adjusted LLM Prompt:** The system prompt for Dr. X has been slightly refined to indicate that the feedback is for a "provided entry" rather than the entire journal.
-5.  **Error Handling for API Key:** The `openai.api_key` retrieval from `st.secrets` is now within a `try-except` block for robustness.
-
-**Important Reminders:**
-
-  * **`requirements.txt`:** Ensure your `requirements.txt` file contains:
-    ```
-    streamlit
-    openai
-    requests
-    ```
-  * **OpenAI API Key:** You **must** have your OpenAI API key configured as a secret named `OPENAI_API_KEY` in your Streamlit Cloud app settings for the LLM feedback to function.
-
-Here's the updated `app.py` code:
-
-```python
 import streamlit as st
 import io
 import openai
@@ -139,20 +112,22 @@ for col, (name, url) in zip(cols, leader_images.items()):
     with col:
         try:
             response = requests.get(url, stream=True)
-            response.raise_for_status()
+            response.raise_for_status() # Raise an HTTPError for bad responses (4xx or 5xx)
             image_bytes = io.BytesIO(response.content)
 
+            # Determine image format (optional, but good practice)
             if 'png' in url.lower():
                 output_format = "PNG"
             elif 'jpg' in url.lower() or 'jpeg' in url.lower():
                 output_format = "JPEG"
             else:
-                output_format = "auto"
+                output_format = "auto" # Let Streamlit try to infer
 
             st.image(image_bytes, use_column_width=True, output_format=output_format)
             st.markdown(f"<p style='text-align:center;font-weight:bold'>{name}</p>", unsafe_allow_html=True)
         except requests.exceptions.RequestException as e:
             st.warning(f"Could not load image for {name}. Error: {e}")
+            # Fallback to a placeholder if image fails to load
             st.image("https://placehold.co/150x150/cccccc/000000?text=Image+Error", use_column_width=True)
             st.markdown(f"<p style='text-align:center;font-weight:bold'>{name}</p>", unsafe_allow_html=True)
         except Exception as e:
@@ -287,4 +262,3 @@ st.markdown("""
     <p>Developed by Xavier Honablue M.Ed for CognitiveCloud.ai Education</p>
 </div>
 """, unsafe_allow_html=True)
-```
