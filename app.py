@@ -1,3 +1,15 @@
+st.markdown('<div class="card">', unsafe_allow_html=True)
+st.markdown('<h2 class="section-header">Welcome, Future Achiever!</h2>', unsafe_allow_html=True)
+<div class="highlight-box">  <-- THIS IS THE PROBLEM LINE (or the block it's part of)
+    <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
+</div>
+```
+
+The lines starting with `<div class="highlight-box">` and the `<strong>` tag are **not wrapped in a Python string literal passed to `st.markdown()`**. Python is trying to execute them as Python code, which is why you're getting a `SyntaxError`. The `U+2013` error specifically points to the en dash within that HTML string that Python is attempting to parse as code.
+
+**Here's the corrected and updated code:**
+
+```python
 import streamlit as st
 import io
 
@@ -65,9 +77,13 @@ st.markdown('<p class="sub-header">Unlock Your Potential: Embrace Challenges, Le
 # --- Welcome Card with Quotes ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Welcome, Future Achiever!</h2>', unsafe_allow_html=True)
+
+# CORRECTED BLOCK: This entire HTML block was outside of st.markdown()
+st.markdown("""
 <div class="highlight-box">
     <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
 </div>
+""", unsafe_allow_html=True) # Ensure unsafe_allow_html is True
 
 st.markdown("""
 <p style='font-size: 1.1rem;'>Your abilities grow with effort, mistakes, and perseverance. Let these voices guide your journey:</p>
