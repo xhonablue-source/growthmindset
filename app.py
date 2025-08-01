@@ -1,5 +1,6 @@
 import streamlit as st
 import io
+import openai # Added: Import the openai library
 
 # --- Page Configuration ---
 st.set_page_config(
@@ -124,7 +125,41 @@ if st.button("📅 Download My Journal as Text File"):
         file_name="growth_journal.txt",
         mime="text/plain"
     )
-st.markdown('</div>', unsafe_allow_html=True)
+
+# --- LLM Feedback ---
+# Ensure you have OPENAI_API_KEY set as a secret in your Streamlit app settings
+# and 'openai' in your requirements.txt
+if any([challenge_text, effort_taken, mistake_text, lesson_learned, growth_action]):
+    journal_input = f"""
+    Challenge: {challenge_text}
+    Effort: {effort_taken}
+    Mistake: {mistake_text}
+    Lesson Learned: {lesson_learned}
+    Growth Action: {growth_action}
+    """
+    if st.button("🤖 Get Feedback from Dr. X"):
+        with st.spinner("Dr. X is thinking..."):
+            # Set OpenAI API key from Streamlit secrets
+            openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are Dr. X, a friendly growth mindset coach for middle and high school students. "
+                            "Offer supportive, encouraging, and constructive feedback based on the user's journal. "
+                            "Always end with a recommended resource link that is appropriate, current, and helpful for further growth mindset learning "
+                            "(e.g., https://www.youcubed.org/resource/growth-mindset/ or https://biglifejournal.com/blogs/blog/growth-mindset-activities-children)."
+                        )
+                    },
+                    {"role": "user", "content": journal_input}
+                ]
+            )
+            st.success("Here's what Dr. X has to say:")
+            st.markdown(response["choices"][0]["message"]["content"])
+st.markdown('</div>', unsafe_allow_html=True) # Closing tag for the card
 
 # --- Footer ---
 st.markdown("---")
