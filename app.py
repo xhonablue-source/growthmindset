@@ -1,13 +1,3 @@
-<div class="highlight-box">
-    <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
-</div>
-```
-
-This HTML block is outside of a `st.markdown()` call, which causes Python to interpret it as invalid syntax.
-
-Here's the corrected code. I've wrapped the problematic HTML within `st.markdown(..., unsafe_allow_html=True)` to fix the `SyntaxError`.
-
-```python
 import streamlit as st
 import io
 
