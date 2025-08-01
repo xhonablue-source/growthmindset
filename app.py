@@ -1,6 +1,3 @@
-You are absolutely right\! My apologies. I completely missed that this was a separate issue in a different `app.py` file. The problem in this code snippet is a `SyntaxError` due to incorrectly placed HTML directly in the Python code, specifically:
-
-```python
 <div class="highlight-box">
     <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
 </div>
