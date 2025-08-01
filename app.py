@@ -1,5 +1,6 @@
 import streamlit as st
 import io
+import openai
 
 # --- Page Configuration ---
 st.set_page_config(
@@ -69,36 +70,18 @@ st.markdown("""
 <p style='font-size: 1.1rem;'>Your abilities grow with effort, mistakes, and perseverance. Let these voices guide your journey:</p>
 <div class="highlight-box">
     <strong>"The power of 'not yet'!"</strong> – Carol Dweck
-    <br><audio controls src="https://cognitivecloud-public.s3.amazonaws.com/audio/carol_dweck_not_yet.mp3"></audio>
 </div>
 <div class="highlight-box">
     <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
-    <br><audio controls src="https://cognitivecloud-public.s3.amazonaws.com/audio/benjamin_mays_tragedy.mp3"></audio>
 </div>
 <div class="highlight-box">
     <strong>"Invest in the human soul. Who knows, it might be a diamond in the rough."</strong> – Mary McLeod Bethune
-    <br><audio controls src="https://cognitivecloud-public.s3.amazonaws.com/audio/mary_bethune_diamond.mp3"></audio>
 </div>
 <div class="highlight-box">
     <strong>"Success is not to be measured by where you stand in life, but by the obstacles you have overcome."</strong> – Booker T. Washington
-    <br><audio controls src="https://cognitivecloud-public.s3.amazonaws.com/audio/booker_success.mp3"></audio>
 </div>
 """, unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
-
-# --- Gallery Section ---
-st.markdown('<h2 class="section-header">Meet the Mindset Leaders</h2>', unsafe_allow_html=True)
-leader_images = {
-    "Carol Dweck": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Carol_Dweck.jpg/220px-Carol_Dweck.jpg",
-    "Benjamin Elijah Mays": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Benjamin_Mays_1969.jpg",
-    "Mary McLeod Bethune": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Mary_McLeod_Bethune_with_notebook.jpg/330px-Mary_McLeod_Bethune_with_notebook.jpg",
-    "Booker T. Washington": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Booker_T_Washington_retouched.jpg/330px-Booker_T_Washington_retouched.jpg"
-}
-cols = st.columns(len(leader_images))
-for col, (name, url) in zip(cols, leader_images.items()):
-    with col:
-        st.image(url, use_column_width=True)
-        st.markdown(f"<p style='text-align:center;font-weight:bold'>{name}</p>", unsafe_allow_html=True)
 
 # --- Journaling Section ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -108,6 +91,27 @@ effort_taken = st.text_area("What effort have you made so far?", height=100)
 mistake_text = st.text_area("Describe a mistake you’ve made:", height=100)
 lesson_learned = st.text_area("What did you learn from that mistake?", height=100)
 growth_action = st.text_input("One action you’ll take to grow this week:", "e.g., Ask for help on a tough math problem")
+
+# --- LLM Feedback ---
+if any([challenge_text, effort_taken, mistake_text, lesson_learned, growth_action]):
+    journal_input = f"""
+    Challenge: {challenge_text}
+    Effort: {effort_taken}
+    Mistake: {mistake_text}
+    Lesson Learned: {lesson_learned}
+    Growth Action: {growth_action}
+    """
+    if st.button("🤖 Get Feedback from Dr. X"):
+        with st.spinner("Dr. X is thinking..."):
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "You are Dr. X, a friendly growth mindset coach for middle and high school students. Offer supportive, encouraging, and constructive feedback based on the user's journal. Always end with a recommended resource link that is appropriate, current, and helpful for further growth mindset learning (e.g., https://www.youcubed.org/resource/growth-mindset/ or https://biglifejournal.com/blogs/blog/growth-mindset-activities-children"},
+                    {"role": "user", "content": journal_input}
+                ]
+            )
+            st.success("Here's what Dr. X has to say:")
+            st.markdown(response["choices"][0]["message"]["content"])
 
 # --- Export Button ---
 if st.button("📅 Download My Journal as Text File"):
