@@ -1,3 +1,16 @@
+You are absolutely right\! My apologies. I completely missed that this was a separate issue in a different `app.py` file. The problem in this code snippet is a `SyntaxError` due to incorrectly placed HTML directly in the Python code, specifically:
+
+```python
+<div class="highlight-box">
+    <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
+</div>
+```
+
+This HTML block is outside of a `st.markdown()` call, which causes Python to interpret it as invalid syntax.
+
+Here's the corrected code. I've wrapped the problematic HTML within `st.markdown(..., unsafe_allow_html=True)` to fix the `SyntaxError`.
+
+```python
 import streamlit as st
 import io
 
@@ -65,9 +78,13 @@ st.markdown('<p class="sub-header">Unlock Your Potential: Embrace Challenges, Le
 # --- Welcome Card with Quotes ---
 st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown('<h2 class="section-header">Welcome, Future Achiever!</h2>', unsafe_allow_html=True)
+
+# FIX: Wrapped the problematic HTML block in st.markdown()
+st.markdown("""
 <div class="highlight-box">
     <strong>"The tragedy of life is not that it ends so soon, but that we wait so long to begin it."</strong> – Benjamin Elijah Mays
 </div>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <p style='font-size: 1.1rem;'>Your abilities grow with effort, mistakes, and perseverance. Let these voices guide your journey:</p>
@@ -134,3 +151,4 @@ st.markdown("""
     <p>Developed by Xavier Honablue M.Ed for CognitiveCloud.ai Education</p>
 </div>
 """, unsafe_allow_html=True)
+```
